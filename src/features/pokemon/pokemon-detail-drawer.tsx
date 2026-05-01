@@ -14,7 +14,10 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { pokemonApi } from "@/lib/api";
 import type { Pokemon } from "@/types/pokemon";
-import { pokemonPlaceholderImage, toFriendlyApiMessage } from "./pokemon-helpers";
+import {
+	pokemonPlaceholderImage,
+	toFriendlyApiMessage,
+} from "./pokemon-helpers";
 
 type PokemonDetailDrawerProps = {
 	open: boolean;
@@ -43,7 +46,9 @@ export function PokemonDetailDrawer({
 			const response = await pokemonApi.getPokemonById(pokemonId);
 			setData(response);
 		} catch (requestError) {
-			setError(toFriendlyApiMessage(requestError, "Failed to fetch Pokemon detail."));
+			setError(
+				toFriendlyApiMessage(requestError, "Failed to fetch Pokemon detail."),
+			);
 		} finally {
 			setIsLoading(false);
 		}
@@ -51,7 +56,6 @@ export function PokemonDetailDrawer({
 
 	useEffect(() => {
 		if (open && pokemonId) {
-			// eslint-disable-next-line react-hooks/set-state-in-effect
 			void fetchDetail();
 		}
 	}, [open, pokemonId, fetchDetail]);
@@ -61,7 +65,9 @@ export function PokemonDetailDrawer({
 			<DrawerContent>
 				<DrawerHeader>
 					<DrawerTitle>Pokemon Detail</DrawerTitle>
-					<DrawerDescription>Complete data fetched from backend.</DrawerDescription>
+					<DrawerDescription>
+						Complete data fetched from backend.
+					</DrawerDescription>
 				</DrawerHeader>
 
 				<div className="mt-6">
@@ -97,18 +103,24 @@ export function PokemonDetailDrawer({
 								/>
 							</div>
 							<div className="flex items-center justify-between">
-								<h3 className="text-2xl font-semibold capitalize">{data.name}</h3>
+								<h3 className="text-2xl font-semibold capitalize">
+									{data.name}
+								</h3>
 								<Badge variant="outline">#{data.id}</Badge>
 							</div>
 							<div className="grid grid-cols-2 gap-3 text-sm max-sm:grid-cols-1">
 								<p>
-									<span className="text-muted-foreground">Height:</span> {data.height}
+									<span className="text-muted-foreground">Height:</span>{" "}
+									{data.height}
 								</p>
 								<p>
-									<span className="text-muted-foreground">Weight:</span> {data.weight}
+									<span className="text-muted-foreground">Weight:</span>{" "}
+									{data.weight}
 								</p>
 								<p>
-									<span className="text-muted-foreground">Base Experience:</span>{" "}
+									<span className="text-muted-foreground">
+										Base Experience:
+									</span>{" "}
 									{data.baseExperience}
 								</p>
 								<p>

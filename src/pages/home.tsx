@@ -1,17 +1,26 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { useToast } from "@/components/ui/toast";
-import { DeletePokemonDialog } from "@/features/pokemon/delete-pokemon-dialog";
-import { PokemonCard } from "@/features/pokemon/pokemon-card";
-import { PokemonDetailDrawer } from "@/features/pokemon/pokemon-detail-drawer";
-import { PokemonEditDialog } from "@/features/pokemon/pokemon-edit-dialog";
-import { PokemonEmptyState, PokemonErrorState, PokemonGridSkeleton } from "@/features/pokemon/pokemon-list-state";
-import { SyncPokemonForm } from "@/features/pokemon/sync-pokemon-form";
 import { pokemonApi } from "@/lib/api";
 import type { Pokemon, PokemonInput } from "@/types/pokemon";
-import { toFriendlyApiMessage } from "./pokemon-helpers";
+import {
+	DeletePokemonDialog,
+	PokemonCard,
+	PokemonDetailDrawer,
+	PokemonEditDialog,
+	PokemonEmptyState,
+	PokemonErrorState,
+	PokemonGridSkeleton,
+	SyncPokemonForm,
+	toFriendlyApiMessage,
+} from "../features/pokemon";
 
 export function PokemonPage() {
 	const { toast } = useToast();
@@ -24,7 +33,9 @@ export function PokemonPage() {
 	const [isDeleting, setIsDeleting] = useState(false);
 
 	const [isDetailOpen, setIsDetailOpen] = useState(false);
-	const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(null);
+	const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(
+		null,
+	);
 
 	const [isEditOpen, setIsEditOpen] = useState(false);
 	const [pokemonToEdit, setPokemonToEdit] = useState<Pokemon | null>(null);
@@ -39,14 +50,15 @@ export function PokemonPage() {
 			const response = await pokemonApi.getPokemons();
 			setPokemons(response);
 		} catch (error) {
-			setListError(toFriendlyApiMessage(error, "Failed to fetch Pokemon list."));
+			setListError(
+				toFriendlyApiMessage(error, "Failed to fetch Pokemon list."),
+			);
 		} finally {
 			setIsLoadingList(false);
 		}
 	}, []);
 
 	useEffect(() => {
-		// eslint-disable-next-line react-hooks/set-state-in-effect
 		void fetchPokemons();
 	}, [fetchPokemons]);
 
@@ -136,12 +148,17 @@ export function PokemonPage() {
 		}
 	};
 
-	const sortedPokemons = useMemo(() => [...pokemons].sort((a, b) => a.id - b.id), [pokemons]);
+	const sortedPokemons = useMemo(
+		() => [...pokemons].sort((a, b) => a.id - b.id),
+		[pokemons],
+	);
 
 	return (
 		<main className="mx-auto w-full max-w-7xl space-y-6 px-6 py-8 max-sm:px-4">
 			<header className="space-y-2">
-				<h1 className="text-3xl font-bold tracking-tight">Pokemon CRUD Dashboard</h1>
+				<h1 className="text-3xl font-bold tracking-tight">
+					Pokemon CRUD Dashboard
+				</h1>
 				<p className="text-muted-foreground">
 					Manage Pokemon data synced from backend `/pokemon` APIs.
 				</p>
@@ -151,7 +168,8 @@ export function PokemonPage() {
 				<CardHeader>
 					<CardTitle>Sync Pokemon</CardTitle>
 					<CardDescription>
-						Add a Pokemon using PokeAPI numeric ID with `POST /pokemon/sync/:id`.
+						Add a Pokemon using PokeAPI numeric ID with `POST
+						/pokemon/sync/:id`.
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -169,9 +187,14 @@ export function PokemonPage() {
 
 				{isLoadingList ? <PokemonGridSkeleton /> : null}
 				{!isLoadingList && listError ? (
-					<PokemonErrorState message={listError} onRetry={() => void fetchPokemons()} />
+					<PokemonErrorState
+						message={listError}
+						onRetry={() => void fetchPokemons()}
+					/>
 				) : null}
-				{!isLoadingList && !listError && sortedPokemons.length === 0 ? <PokemonEmptyState /> : null}
+				{!isLoadingList && !listError && sortedPokemons.length === 0 ? (
+					<PokemonEmptyState />
+				) : null}
 
 				{!isLoadingList && !listError && sortedPokemons.length > 0 ? (
 					<div className="grid grid-cols-4 gap-5 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1">

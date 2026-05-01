@@ -1,4 +1,4 @@
-import { PokemonPage } from "@/features/pokemon/pokemon-page";
+import { PokemonPage } from "@/pages/home";
 
 function App() {
 	return <PokemonPage />;

@@ -38,7 +38,6 @@ export function PokemonEditDialog({
 
 	useEffect(() => {
 		if (!pokemon) return;
-		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setForm({
 			name: pokemon.name,
 			height: pokemon.height,
@@ -54,7 +53,10 @@ export function PokemonEditDialog({
 			return;
 		}
 		const parsedValue = Number(value);
-		setForm((current) => ({ ...current, [field]: Number.isNaN(parsedValue) ? 0 : parsedValue }));
+		setForm((current) => ({
+			...current,
+			[field]: Number.isNaN(parsedValue) ? 0 : parsedValue,
+		}));
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -83,7 +85,9 @@ export function PokemonEditDialog({
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Edit Pokemon</DialogTitle>
-					<DialogDescription>Update Pokemon data then save your changes.</DialogDescription>
+					<DialogDescription>
+						Update Pokemon data then save your changes.
+					</DialogDescription>
 				</DialogHeader>
 				<form className="mt-4 space-y-3" onSubmit={handleSubmit}>
 					<Input
@@ -108,7 +112,9 @@ export function PokemonEditDialog({
 							placeholder="Base Experience"
 							type="number"
 							value={form.baseExperience}
-							onChange={(event) => updateField("baseExperience", event.target.value)}
+							onChange={(event) =>
+								updateField("baseExperience", event.target.value)
+							}
 						/>
 					</div>
 					<Input
@@ -118,7 +124,10 @@ export function PokemonEditDialog({
 					/>
 					{error ? <p className="text-sm text-destructive">{error}</p> : null}
 					<DialogFooter>
-						<Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+						<Button
+							type="button"
+							variant="outline"
+							onClick={() => onOpenChange(false)}>
 							Cancel
 						</Button>
 						<Button type="submit" disabled={isSubmitting}>

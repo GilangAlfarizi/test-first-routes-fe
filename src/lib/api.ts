@@ -6,7 +6,7 @@ import type {
 	PokemonInput,
 } from "@/types/pokemon";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http:localhost:8080";
 
 const getErrorMessage = (value: unknown, fallback: string): string => {
 	if (typeof value === "string" && value.trim().length > 0) {
@@ -60,21 +60,25 @@ export const pokemonApi = {
 		const response = await request<Pokemon[]>("/pokemon");
 		return response.data;
 	},
+
 	getPokemonById: async (id: number): Promise<Pokemon> => {
 		const response = await request<Pokemon>(`/pokemon/${id}`);
 		return response.data;
 	},
+
 	syncPokemonById: async (id: number): Promise<void> => {
 		await request<Pokemon>(`/pokemon/sync/${id}`, {
 			method: "POST",
 		});
 	},
+
 	updatePokemon: async (id: number, input: PokemonInput): Promise<void> => {
 		await request<Pokemon>(`/pokemon/${id}`, {
 			method: "PUT",
 			body: JSON.stringify(input),
 		});
 	},
+
 	deletePokemon: async (id: number): Promise<void> => {
 		await request<{ id: number }>(`/pokemon/${id}`, {
 			method: "DELETE",

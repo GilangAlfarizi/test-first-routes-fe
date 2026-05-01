@@ -1,73 +1,75 @@
-# React + TypeScript + Vite
+# Pokedex Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Simple frontend app for managing Pokemon data (list, sync, detail, update, delete).
 
-Currently, two official plugins are available:
+## 1) What you need first
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- [Node.js](https://nodejs.org/) `v20+` (recommended: latest LTS)
+- npm (already included with Node.js)
+- Backend API running
 
-## React Compiler
+## 2) Clone and open the project
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/GilangAlfarizi/test-first-routes-fe.git
+cd test-first-routes-fe
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 3) Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+## 4) Setup environment variable
+
+Create a file named `.env` in the project root:
+
+```env
+VITE_API_BASE_URL=http://localhost:8080
+```
+
+Important:
+- This frontend expects backend endpoints under `/pokemon`.
+- Example request base: `http://localhost:8080/pokemon`
+
+## 5) Run the app
+
+```bash
+npm run dev
+```
+
+Then open the URL shown in terminal (usually `http://localhost:5173`).
+
+## 6) Make sure everything works
+
+- You should see the Pokemon dashboard page.
+- Try these quick checks:
+  - Sync Pokemon by ID (example: `25`)
+  - Open detail panel
+  - Edit a Pokemon
+  - Delete a Pokemon
+
+If list is empty at start, that is normal. Sync one Pokemon first.
+
+## 7) Useful commands
+
+```bash
+npm run lint     # check code quality
+npm run build    # production build test
+npm run preview  # preview production build
+```
+
+## Common setup issues
+
+### Backend is not running
+- Symptom: requests fail / no data loaded
+- Fix: start backend first and confirm it runs on the same URL as `VITE_API_BASE_URL`
+
+### Wrong API base URL
+- Symptom: frontend opens, but all API calls fail
+- Fix: check `.env` value and restart dev server after any `.env` change
+
+### Port conflict
+- Symptom: Vite fails to start or uses a different port
+- Fix: stop other process on that port or use the new URL shown by Vite
